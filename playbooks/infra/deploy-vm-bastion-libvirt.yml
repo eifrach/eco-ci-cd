@@ -435,6 +435,14 @@
             "auths": {{ podman_registry_credentials }}
             }
 
+    - name: Add podman uid range to /etc/subuid and /etc/subgid
+      ansible.builtin.shell:
+        cmd: |
+          sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 {{ ansible_user }}
+          podman system migrate
+      register: set_subuid_output
+      changed_when: set_subuid_output.rc == 0
+
     - name: Setup Internal registry
       ansible.builtin.import_role:
         name: registry_gui_deploy
