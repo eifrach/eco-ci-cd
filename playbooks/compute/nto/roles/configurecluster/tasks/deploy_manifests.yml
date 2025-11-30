@@ -1,0 +1,44 @@
+---
+- name: Get Cluster version
+  kubernetes.core.k8s_info:
+    api_version: config.openshift.io/v1
+    kind: ClusterVersion
+    name: version
+  register: api_version
+
+- name: Set ocp_version
+  ansible.builtin.set_fact:
+    ocp_version: "{{ api_version.resources[0].status.desired.version.split('.')[:2] | join('.') }}"
+
+- name: Print ocp_version
+  ansible.builtin.debug:
+    msg: "OCP version: {{ ocp_version }}"
+
+- name: Deploy Machine Config Pool
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ manifests_folder}}/machineConfigPool.yml"
+  when: not is_sno | bool
+  notify:
+    - wait for mcp update
+
+- name: Deploy Container Runtime Configuration
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ manifests_folder }}/ContainerRuntime.yml"
+  notify:
+    - wait for mcp update
+
+- name: Deploy Cgroup Configuration
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ manifests_folder }}/CgroupConfiguration.yml"
+  notify:
+    - wait for mcp update
+
+- name: Deploy Performance Profile
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ manifests_folder }}/PerformanceProfile.yml"
+  notify:
+    - wait for mcp update

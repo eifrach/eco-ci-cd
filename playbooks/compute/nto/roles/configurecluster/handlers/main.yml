@@ -14,6 +14,21 @@
   changed_when: false
   listen: wait for mcp update
 
+- name: Wait for the 'worker-cnf' MachineConfigPool to be 'Updated'
+  kubernetes.core.k8s_info:
+    api_version: machineconfiguration.openshift.io/v1
+    kind: MachineConfigPool
+    name: worker-cnf
+  register: mcp_status_info
+  until:
+    mcp_status_info.resources | default([]) | length > 0 and
+    (mcp_status_info.resources[0].status.conditions | selectattr('type', 'equalto', 'Updated') | list | first).status == 'True'
+  retries: "{{ mcp_wait_retries }}"
+  delay: "{{ mcp_wait_delay }}"
+  changed_when: false
+  when: not is_sno | bool
+  listen: wait for mcp update
+
 - name: Notify that Master MCP update is complete
   ansible.builtin.debug:
     msg: "✅ Master MachineConfigPool rollout is complete. All master nodes have rebooted."
