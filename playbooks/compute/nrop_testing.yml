@@ -1,0 +1,13 @@
+- name: Nrop Deploy testing
+  hosts: bastion
+  gather_facts: false
+  vars:
+    # !TODO : kubeconfig should be removed
+    kubeconfig: "/home/telcov10n/project/generated/helix47/auth/kubeconfig"
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+  tasks:
+    - name: Run role nrop_testing
+      ansible.builtin.include_role:
+        name: nrop_testing
