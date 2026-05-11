@@ -20,9 +20,9 @@
         command: list_vms
       register: running_vms_result
 
-    - name: Filter VMs with "master" or "worker" in the name
+    - name: Filter VMs with "master" or "worker" in the name and matching CLUSTER_NAME
       ansible.builtin.set_fact:
-        vms_to_delete: "{{ running_vms_result.list_vms | select('match', '(?i).*_(master|worker)[0-9].*') | list }}"
+        vms_to_delete: "{{ running_vms_result.list_vms | select('match', '(?i).*' + cluster_name + '.*_(master|worker)[0-9].*') | list }}"
 
     - name: Get VM disks path
       ansible.builtin.find:
@@ -38,9 +38,9 @@
         file_type: file
       register: agent_images_files_result
 
-    - name: Set VM disks to delete
+    - name: Set VM disks to delete matching CLUSTER_NAME
       ansible.builtin.set_fact:
-        vm_disks_to_delete: "{{ vm_disks_result.files | map(attribute='path') | select('match', '(?i).*_(master|worker)[0-9].*.qcow2') | list }}"
+        vm_disks_to_delete: "{{ vm_disks_result.files | map(attribute='path') | select('match', '(?i).*' + cluster_name + '.*_(master|worker)[0-9].*.qcow2') | list }}"
 
     - name: Set agent images files to delete
       ansible.builtin.set_fact:
