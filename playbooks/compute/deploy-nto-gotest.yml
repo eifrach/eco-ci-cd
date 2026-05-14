@@ -21,7 +21,6 @@
       ansible.builtin.include_tasks: ./nto/roles/configurecluster/tasks/must_gather.yml
       vars:
         dir_path: "{{ must_gather_dir }}"
-      when: day0_installation | bool
 
     - name: Get Cluster version
       kubernetes.core.k8s_info:
