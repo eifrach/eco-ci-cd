@@ -21,7 +21,7 @@ You can adjust the execution by providing the following variables:
 | `disconnected_install` | No       | Set `true` for disconnected installs (default: `true`)              |
 | `teardown_timeout`     | No       | Timeout override for teardown stage                                 |
 | `cooldown_timeout`     | No       | Timeout override for cooldown stage                                 |
-| `device_t1/2/3`        | No       | Custom device type override variables                               |
+| `sample_device_type_1/2/3` | No   | Custom device type override variables                               |
 | `ginkgo_focus`         | No       | Regex/filter to focus a subset of E2E tests                        |
 | `ginkgo_skip`          | No       | Regex/filter to skip a subset of E2E tests                         |
 | `run_reboot_tests_only`| No       | Run only tests that require node reboots (`true/false`)             |

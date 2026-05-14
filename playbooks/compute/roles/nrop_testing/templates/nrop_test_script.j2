@@ -15,14 +15,14 @@ podman run --rm --name nrop-container-tests \
 {% if cooldown_timeout|default("") != "" %}
   -e E2E_NROP_TEST_COOLDOWN={{ cooldown_timeout }} \
 {% endif %}
-{% if device_t1|default("") != "" %}
-  -e E2E_NROP_DEVICE_TYPE_1={{ device_t1 }} \
+{% if sample_device_type_1|default("") != "" %}
+  -e E2E_NROP_DEVICE_TYPE_1={{ sample_device_type_1 }} \
 {% endif %}
-{% if device_t2|default("") != "" %}
-  -e E2E_NROP_DEVICE_TYPE_2={{ device_t2 }} \
+{% if sample_device_type_2|default("") != "" %}
+  -e E2E_NROP_DEVICE_TYPE_2={{ sample_device_type_2 }} \
 {% endif %}
-{% if device_t3|default("") != "" %}
-  -e E2E_NROP_DEVICE_TYPE_3={{ device_t3 }} \
+{% if sample_device_type_3|default("") != "" %}
+  -e E2E_NROP_DEVICE_TYPE_3={{ sample_device_type_3 }} \
 {% endif %}
   -e E2E_NROP_INFRA_SETUP_SKIP=true \
   -e E2E_NROP_MUSTGATHER_IMAGE={{ numa_mustgather_image }} \
