@@ -30,9 +30,9 @@ ppc_image: "registry.redhat.io/openshift4/ose-cluster-node-tuning-rhel9-operator
 ppc_image_rhel8: "registry.redhat.io/openshift4/ose-cluster-node-tuning-operator:v4.12"
 
 # devices
-device_t1: tty1
-device_t2: tty2
-device_t3: tty3
+sample_device_type_1: example.com/deviceA
+sample_device_type_2: example.com/deviceB
+sample_device_type_3: example.com/deviceC
 
 # Test to skip
 ginkgo_skip: 84312
